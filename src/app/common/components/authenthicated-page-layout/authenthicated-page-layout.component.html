@@ -1,0 +1,23 @@
+<div class="h-[100vh] w-[100vw] ">
+    <div class="h-[8%] flex items-center justify-between border-r-5 shadow-sm bg-gray-400">
+        <div class="text-2xl ml-[15px]">Exist Helpdesk</div>
+        <button class="mr-[15px]" (click)="logout()">Logout</button>
+    </div>
+    <div  class="h-[92%]  flex">
+        <div class="w-[13%]  border-r-5 shadow-lg">
+            <ul>
+                <li class="p-3">
+                    <a routerLink="/employee" class="text-lg">Employee Management</a>
+                </li>
+                
+                <li class="p-3">
+                    <a routerLink="/ticket" class="text-lg">Ticket Management</a>
+                </li>
+            </ul>
+        </div>
+        <div class="w-[87%]  p-10">
+            <ng-content></ng-content>
+        </div>
+    </div>
+
+</div>

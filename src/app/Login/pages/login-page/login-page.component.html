@@ -1,0 +1,12 @@
+<div class="h-full bg-slate-200 flex justify-center items-center">
+  <div class="h-[500px] w-[500px] bg-slate-400 rounded-md p-10">
+    <div class="text-2xl text-center">Login</div>
+    <div class="mb-12">
+      <InputField [(inputValue)]="username" label="Username"></InputField>
+    </div>
+    <div class="mb-12">
+      <PasswordInputField [(inputValue)]="password" label="Password"></PasswordInputField>
+    </div>
+    <Button label="Login" (btnClick)="handleLogin(username,password)"></Button>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+<AuthenticatedPageLayout>
+    <div class="h-[100%] flex flex-col">
+            <div class="flex justify-between mb-4" >
+                <div class="text-3xl">Tickets</div>
+                <Button routerLink="/ticket/create" *ngIf="shouldAllow('ROLE_ADMIN')" label="Create Ticket"></Button>
+            </div>
+            <div class="grow p-3 border border-black shadow-xl rounded-md overflow-y-scroll">
+                <div class=" grid grid-cols-4 ">
+                    <div *ngFor="let ticket of tickets" class="col-span flex justify-center">
+                        <Card routerLink="/ticket/{{ticket.ticketNumber}}">
+                                <div>
+                                    <span class="font-bold">Title: </span>
+                                    <span>{{ticket.title}}</span>
+                                </div>
+                                <div>
+                                    <span class="font-bold">Severity: </span>
+                                    <span>{{ticket.severity}}</span>
+                                </div>
+                        </Card>
+                    </div>
+                </div>
+            </div>
+    </div>
+</AuthenticatedPageLayout>

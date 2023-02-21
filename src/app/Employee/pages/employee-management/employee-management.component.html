@@ -1,0 +1,23 @@
+<AuthenticatedPageLayout>
+    <div class="h-[100%] flex flex-col">
+            <div class="flex justify-between mb-4" >
+                <div class="text-3xl">Employees</div>
+                <Button *ngIf="shouldAllow('ROLE_ADMIN')"    routerLink="/employee/create" label="Create Employee"></Button>
+            </div>
+            <div *ngIf="employees" class="grow p-3 border border-black shadow-xl rounded-md overflow-y-scroll grid grid-cols-4 ">
+                <div *ngFor="let employee of employees" class="col-span flex justify-center">
+                    <Card routerLink="/employee/{{employee.id}}">
+
+                            <div>
+                                <span class="font-bold">Name: </span>
+                                <span>{{employee.firstName}} {{employee.lastName}}</span>
+                            </div>
+                            <div>
+                                <span class="font-bold">Department: </span>
+                                <span>{{employee.department}}</span>
+                            </div>
+                    </Card>
+                </div>
+            </div>
+    </div>
+</AuthenticatedPageLayout>

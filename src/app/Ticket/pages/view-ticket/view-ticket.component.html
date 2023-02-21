@@ -1,0 +1,76 @@
+<AuthenticatedPageLayout>
+    <div class="h-[100%] flex flex-col">
+        <div class="flex justify-between">
+            <div class="text-3xl mb-3">{{!isEdit? 'Ticket details':'Update ticket'}}</div>
+            <div *ngIf="shouldAllow('ROLE_ADMIN')">
+                <Button (btnClick)="deleteTicket()" class="mr-3" label="Delete" color="danger"></Button>
+                <Button label="{{ !isEdit? 'Edit':'Cancel'}}" (btnClick)="setIsEdit()"></Button>
+            </div>
+        </div>
+            <div *ngIf="ticket && statuses && severities"  class="grow p-3 border border-black shadow-xl rounded-md">
+                <div class="pt-5">
+                    <div class="grid grid-cols-2 gap-12 mb-7">
+                        <div >
+                            <InputField label="Title" [isDisabled]="!isEdit"  [(inputValue)]="ticket.title"></InputField>
+                        </div>
+                        <div >
+                            <InputField label="Description" [isDisabled]="!isEdit"  [(inputValue)]="ticket.description"></InputField>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-12 mb-7">
+                        <div >
+                            <SelectComponent [selectOptions]="severities" label="Title" [isDisabled]="!isEdit"  [(inputValue)]="ticket.severity"></SelectComponent>
+                        </div>
+                        <div >
+                            <SelectComponent [selectOptions]="statuses" label="Description" [isDisabled]="!isEdit" [(inputValue)]="ticket.status"></SelectComponent>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="!isEdit" class="flex justify-between">
+                    <div class="w-[50%]">
+                        <div class="font-bold">Watchers:</div>
+                        <ul *ngIf="ticket.watchers.length>0">
+                            <li *ngFor="let watcher of ticket.watchers; let i = index" routerLink="/employee/{{watcher.id}}" class="cursor-pointer">
+                                <div>
+                                    <div>
+                                        <span class="font-bold">{{i+1}}. Name: </span>
+                                        <span >
+                                            {{watcher.firstName}} {{watcher.lastName}} 
+                                        </span>
+                                    </div>
+                                    <div class="ml-4">
+                                        <span class="font-bold">Department: </span>
+                                        <span>
+                                            {{watcher.department}} 
+                                        </span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <div *ngIf="ticket.watchers.length === 0" class="font-bold">
+                            No watchers assigned
+                        </div>
+                    </div>
+                    <div class="w-[50%]">
+                        <div class="font-bold">Assignee:</div>
+                        <div *ngIf="ticket.assignee" routerLink="/employee/{{ticket.assignee.id}}" class="cursor-pointer" >
+                            <div>
+                                <span class="font-bold">Name: </span>
+                                {{ticket.assignee.firstName}} {{ticket.assignee.lastName}}
+                            </div>
+                            <div>
+                                <span class="font-bold">Department: </span>
+                                {{ticket.assignee.department}}
+                            </div>
+                        </div>
+                        <div *ngIf="!ticket.assignee" class="font-bold">
+                            Ticket not assigned to anyone
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="isEdit" class="flex justify-end">
+                    <Button (click)="updateTicket()" label="Save"></Button>
+                </div>
+            </div>
+    </div>
+</AuthenticatedPageLayout>

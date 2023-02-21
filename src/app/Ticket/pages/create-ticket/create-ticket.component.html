@@ -1,0 +1,28 @@
+<AuthenticatedPageLayout>
+    <div class="h-[100%] flex flex-col">
+        <div class="text-3xl mb-3">Create Ticket</div>
+            <div *ngIf="statuses && severities"  class="grow p-3 border border-black shadow-xl rounded-md">
+                <div class="pt-5">
+                    <div class="grid grid-cols-2 gap-12 mb-7">
+                        <div >
+                            <InputField label="Title"  [(inputValue)]="ticket.title"></InputField>
+                        </div>
+                        <div >
+                            <InputField label="Description"   [(inputValue)]="ticket.description"></InputField>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-12 mb-7">
+                        <div >
+                            <SelectComponent [selectOptions]="statuses" label="Status"  [(inputValue)]="ticket.status"></SelectComponent>
+                        </div>
+                        <div >
+                            <SelectComponent [selectOptions]="severities" label="Severity"  [(inputValue)]="ticket.severity"></SelectComponent>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-end">
+                    <Button (btnClick)="createTicket()" label="Save"></Button>
+                </div>
+            </div>
+    </div>
+</AuthenticatedPageLayout>

@@ -1,0 +1,97 @@
+<AuthenticatedPageLayout>
+    <div class="h-[100%] flex flex-col">
+            <div class="flex justify-between mb-4" >
+                <div class="text-3xl">Employee details</div>
+                <div *ngIf="shouldAllow('ROLE_ADMIN')">
+                    <Button *ngIf="!this.employee?.assignedTicket?.ticketNumber && !employee!.watchTickets.length"  color="danger"  label="Delete" (btnClick)="deleteEmployee()" class="mr-3"></Button>
+                    <Button  label="{{ !isEdit? 'Edit':'Cancel'}}" (btnClick)="setIsEdit()"></Button>
+                </div>
+            </div>
+            <div *ngIf="employee && roles && departments && watchTicketOptions" class="grow p-3 border border-black shadow-xl rounded-md">
+                <div class="grid grid-cols-2 gap-12 mb-7">
+                    <div >
+                        <InputField label="First Name" [isDisabled]="!isEdit"  [(inputValue)]="employee.firstName"></InputField>
+                    </div>
+                    <div >
+                        <InputField label="Middle Name" [isDisabled]="!isEdit"  [(inputValue)]="employee.middleName"></InputField>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-12 mb-7">
+                    <div >
+                        <InputField label="Last Name" [isDisabled]="!isEdit"  [(inputValue)]="employee.lastName"></InputField>
+                    </div>
+                    <div >
+                        <SelectComponent label="Department" [isDisabled]="!isEdit" [selectOptions]="departments" [(inputValue)]="employee.department"></SelectComponent>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-12 mb-7">
+                    <div >
+                        <SelectComponent label="Role" [isDisabled]="!isEdit"  [(inputValue)]="employee.role.id" [selectOptions]="roles"></SelectComponent>
+                    </div>  
+                    <div >
+                        <InputField label="Username" [isDisabled]="!isEdit"  [(inputValue)]="employee.username"></InputField>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-12 mb-7" *ngIf="isEdit">
+                    <div >
+                        <SelectComponent label="Assign ticket" [isDisabled]="!isEdit"  [(inputValue)]="employee.assignedTicket.ticketNumber" [selectOptions]="ticketOptions"></SelectComponent>
+                    </div>  
+                    <div >
+                        <SelectComponent label="Add watch ticket" [isDisabled]="!isEdit" (selectValueChange)="handleWatchTicketChange($event)"   [selectOptions]="watchTicketOptions"></SelectComponent>
+                    </div> 
+                </div>
+                <div class="flex">
+                    <div class="w-[50%]">
+                        <div class="font-bold">
+                            Assigned ticket:
+                        </div>
+                        <div *ngIf="!employee?.assignedTicket?.ticketNumber" class="font-bold">No assigned ticket</div>
+                        <div *ngIf="employee?.assignedTicket?.ticketNumber">
+                            <div>
+                                <span class="font-semibold">Title - </span>
+                                <span>{{employee.assignedTicket.title}}</span>
+                            </div>
+                            <div >
+                                <span class="font-semibold">Severity - </span>
+                                <span>{{employee.assignedTicket.severity}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="font-bold">
+                            Assigned watch ticket(s):
+                        </div>
+                        <div *ngIf="employee.watchTickets.length">
+                            <ul>
+                                <li *ngFor="let ticket of employee.watchTickets; let i=index">
+                                   <div>
+                                        <span class="font-semibold">
+                                           {{i+1}}. Title - 
+                                        </span>
+                                        <span>
+                                            {{ticket.title}}
+                                        </span>
+                                        <button *ngIf="isEdit" class="text-white bg-red-500 rounded-md p-[2px]" (click)="handleWatchTicketRemove(ticket.ticketNumber)">Delete</button>
+                                   </div>
+                                   <div>
+                                    <span class="font-semibold">
+                                        Severity - 
+                                    </span>
+                                    <span>
+                                            {{ticket.severity}}
+                                    </span>
+                               </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="font-bold" *ngIf="employee.watchTickets.length===0">
+                            No assigned ticket
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-end" *ngIf="isEdit">
+                    <Button label="Save" (btnClick)="updateEmployee()"></Button>
+                </div>
+            </div>
+    </div>
+</AuthenticatedPageLayout>
